@@ -6,43 +6,40 @@
 #    By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/23 16:47:12 by kscordel          #+#    #+#              #
-#    Updated: 2023/06/23 16:52:33 by kscordel         ###   ########.fr        #
+#    Updated: 2023/06/24 15:51:09 by kscordel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
+
 # sources
-SRCDIR = src/
-OBJDIR = obj/
-SRCS = $(SRCDIR)philosopher.c
-OBJS = $(patsubst $(SRCDIR)%.c,$(OBJDIR)%.o,$(SRCS))
+SRC_DIR = src/
+OBJ_DIR = obj/
+
+SRCS = $(SRC_DIR)philosopher.c $(SRC_DIR)routine.c $(SRC_DIR)utils.c
+
+OBJS = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRCS))
 
 NAME = philosopher
 
-LIBPATH = libft/libft.a
-
 all: $(NAME)
 
-$(NAME): $(OBJS) | lib
-	$(CC) $(CFLAGS) $(OBJS) $(LIBPATH) -o $@
+$(NAME): $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-lib:
-	@make -C ./libft
-
-$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJDIR):
-	mkdir -p $(OBJDIR)
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -rf $(OBJDIR)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 		rm -f $(NAME)
-		make fclean -C ./libft
 	
 re: fclean all
 
