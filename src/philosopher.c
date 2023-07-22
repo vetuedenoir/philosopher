@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:32:59 by kscordel          #+#    #+#             */
-/*   Updated: 2023/06/24 17:39:30 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/07/21 17:34:13 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ t_hand	*create_hand(t_philo data, pthread_mutex_t *fourchettes)
 	hands[0].info = data;
 	hands[0].num_philo = 1;
 	hands[0].tab_fourch = fourches;
+	hands[0].fourchette_D = &fourchettes[0];
+	hands[0].fourch_D = &fourches[0];
 	while (i < data.number_of_philosophers)
 	{
 		hands[i].fourchette_G = &fourchettes[i - 1];
@@ -91,8 +93,17 @@ void	launch(pthread_t *philosophers, t_hand *hands, t_philo data, pthread_mutex_
 		{
 			if (pthread_create(&philosophers[i], NULL, &paire, &hands[i]) != 0)
 				return ;//(free(philosophers), ); peut etre tout free + mutex
-			i++;
+			i += 2;
 		}
+		i = 1;
+		usleep(data.time_to_die /2);
+		while (i < data.number_of_philosophers)
+		{
+			if (pthread_create(&philosophers[i], NULL, &paire, &hands[i]) != 0)
+				return ;//(free(philosophers), ); peut etre tout free + mutex
+			i += 2;
+		}
+		
 	}
 	else
 	{
