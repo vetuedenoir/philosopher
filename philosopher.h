@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:34:49 by kscordel          #+#    #+#             */
-/*   Updated: 2023/07/21 14:29:48 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/07/28 17:21:08 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <limits.h>
 
 typedef struct s_philo
 {
-	int	number_of_philosophers;
-	int	time_to_die;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int				nb_of_eat;	
+	int		number_of_philosophers;
+	int		time_to_die;
+	int		time_to_eat;
+	int		time_to_sleep;
+	long	nb_of_eat;	
 }		t_philo;
 
 typedef struct	s_hand
@@ -44,7 +45,7 @@ int	ft_atoi(const char *nptr);
 void	clear_mutex(pthread_mutex_t *fourchettes, int indice);
 
 //les routines
-void	*paire(void *arg);
+void	*routine_paire(void *arg);
 
 
 #endif

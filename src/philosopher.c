@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:32:59 by kscordel          #+#    #+#             */
-/*   Updated: 2023/07/21 17:34:13 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/07/28 18:41:19 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ t_philo	init(char **argv, int argc)
 	t_philo	philo;
 	
 	philo.number_of_philosophers = ft_atoi(argv[1]);
-	philo.time_to_die = ft_atoi(argv[2]);
-	philo.time_to_eat = ft_atoi(argv[3]);
-	philo.time_to_sleep = ft_atoi(argv[4]);
+	philo.time_to_die = ft_atoi(argv[2]) * 1000;
+	philo.time_to_eat = ft_atoi(argv[3]) * 1000;
+	philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
 	if (argc == 6)
-		philo.nb_of_eat = ft_atoi(argv[5]);
+		philo.nb_of_eat = ft_atoi(argv[5]) * 1000;
 	else
 		philo.nb_of_eat = -1;
 	return (philo);
@@ -91,15 +91,15 @@ void	launch(pthread_t *philosophers, t_hand *hands, t_philo data, pthread_mutex_
 	{
 		while (i < data.number_of_philosophers)
 		{
-			if (pthread_create(&philosophers[i], NULL, &paire, &hands[i]) != 0)
+			if (pthread_create(&philosophers[i], NULL, &routine_paire, &hands[i]) != 0)
 				return ;//(free(philosophers), ); peut etre tout free + mutex
 			i += 2;
 		}
 		i = 1;
-		usleep(data.time_to_die /2);
+		usleep(data.time_to_eat);
 		while (i < data.number_of_philosophers)
 		{
-			if (pthread_create(&philosophers[i], NULL, &paire, &hands[i]) != 0)
+			if (pthread_create(&philosophers[i], NULL, &routine_paire, &hands[i]) != 0)
 				return ;//(free(philosophers), ); peut etre tout free + mutex
 			i += 2;
 		}
