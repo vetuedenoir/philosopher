@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 13:18:45 by kscordel          #+#    #+#             */
-/*   Updated: 2023/06/24 15:01:03 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/07/29 17:32:13 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	clear_mutex(pthread_mutex_t *fourchettes, int indice)
 	int	i;
 
 	i = 0;
-	while (i < indice)
+	while (i <= indice + 1)
 	{
 		pthread_mutex_destroy(&fourchettes[i]);
 		i++;
