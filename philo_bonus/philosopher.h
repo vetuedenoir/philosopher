@@ -18,10 +18,17 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <sys/time.h>
+#include <fcntl.h> 
+#include <semaphore.h>
+#include <string.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+
 
 typedef struct s_philo
 {
-	int		number_of_philosophers;
+	int		num_of_philos;
 	int		time_to_die;
 	int		time_to_eat;
 	int		time_to_sleep;
@@ -30,26 +37,27 @@ typedef struct s_philo
 
 typedef struct	s_hand
 {
-	pthread_mutex_t	*fourchette_G;
-	pthread_mutex_t	*fourchette_D;
-	pthread_mutex_t	*is_dead;
-	pthread_mutex_t	*ecrire;
-	char			*dead;
+	sem_t			*died;
+	sem_t			*fourchettes;
+	sem_t			*write;
 	long			t_debut;
 	t_philo		info;
+	pid_t			*list_pid;
 	int			sync;
 	int			num_philo;
 }		t_hand;
 
 // utils
 int	ft_atoi(const char *nptr);
-void	clear_mutex(pthread_mutex_t *fourchettes, int indice);
-int	mutex_init(t_philo data, pthread_mutex_t *fourchettes);
 void	ft_usleep(int time);
 t_philo	init(char **argv, int argc);
+void	kill_all(pid_t *list_pid, int index);
 
 //les routines
-void	*routine(void *arg);
+void	routine(t_hand hand, int num);
+
+//monitoring.c
+void	monitoring(t_philo philo, pid_t *list_pid, t_hand hand);
 
 //dead_no_eat
 int	ft_isitdead(t_hand *hand, long lastmeal);

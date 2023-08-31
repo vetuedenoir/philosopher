@@ -63,15 +63,6 @@ int	mutex_init(t_philo data, pthread_mutex_t *fourchettes)
 	return (0);
 }
 
-long gettime(void)
-{
-	struct timeval time;
-	
-	gettimeofday(&time, NULL);
-	//printf("\n time sec = %ld et time usec = %ld\n", time.tv_sec, time.tv_usec);
-	return ((time.tv_sec * 1000000) + time.tv_usec);
-}
-
 void	ft_usleep(int time)
 {
 	long	x;
@@ -79,4 +70,25 @@ void	ft_usleep(int time)
 	x = gettime();
 	while (gettime() - x < time)
 		usleep(50);
+}
+
+t_philo	init(char **argv, int argc)
+{
+	t_philo	philo;
+	
+	if (argc < 5)
+		return (philo.number_of_philosophers = 0, philo);
+	philo.number_of_philosophers = ft_atoi(argv[1]);
+	philo.time_to_die = ft_atoi(argv[2]) * 1000;
+	philo.time_to_eat = ft_atoi(argv[3]) * 1000;
+	philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
+	if (argc == 6)
+		philo.nb_of_eat = ft_atoi(argv[5]);
+	else
+		philo.nb_of_eat = -1;
+	if (philo.number_of_philosophers <= 0 || philo.time_to_die <= 0 || 
+		philo.time_to_eat <= 0 || philo.time_to_sleep <= 0)
+		return (printf("wrong arg \n"),\
+			philo.number_of_philosophers = 0, philo);
+	return (philo);
 }

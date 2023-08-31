@@ -52,8 +52,7 @@ int	for_all(t_hand *hand, long lastmeal)
 	ft_usleep(hand->info.time_to_sleep);
 	if (timemsg(hand, lastmeal, "is thinking"))
 		return (1);
-	if (hand->num_philo % 2 != 0)
-		ft_usleep(500);
+	ft_usleep(hand->sync);
 	if (!hand->info.nb_of_eat)
 		return (1);
 	return (0);

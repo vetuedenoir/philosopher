@@ -62,3 +62,12 @@ int	ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal)
 	return (0);
 }
 
+long gettime(void)
+{
+	struct timeval time;
+	
+	gettimeofday(&time, NULL);
+	//printf("\n time sec = %ld et time usec = %ld\n", time.tv_sec, time.tv_usec);
+	return ((time.tv_sec * 1000000) + time.tv_usec);
+}
+

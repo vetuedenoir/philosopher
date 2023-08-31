@@ -11,18 +11,18 @@
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g3
 
 
 # sources
 SRC_DIR = src/
 OBJ_DIR = obj/
 
-SRCS = $(SRC_DIR)philosopher.c $(SRC_DIR)routine.c $(SRC_DIR)utils.c $(SRC_DIR)dead_no_eat.c
+SRCS = $(SRC_DIR)philosopher.c $(SRC_DIR)routine.c $(SRC_DIR)utils.c $(SRC_DIR)monitoring.c
 
 OBJS = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRCS))
 
-NAME = philo
+NAME = philo_bonus
 
 all: $(NAME)
 
