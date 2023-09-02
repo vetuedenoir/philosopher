@@ -31,7 +31,7 @@ void	ft_usleep(int time)
 
 	x = gettime();
 	while (gettime() - x < time)
-		usleep(50);
+		usleep(100);
 }
 
 long gettime(void)
@@ -50,8 +50,8 @@ int	timemsg(t_hand *hand, long lastmeal, char *str)
 		sem_wait(hand->write);		
 		printf("%ld %d %s\n", (gettime() - hand->t_debut)\
 			/ 1000, hand->num_philo, "died");
-		sem_post(hand->write);
 		sem_post(hand->died);
+		sem_post(hand->write);
 		return (1);
 	}
 	sem_wait(hand->write);

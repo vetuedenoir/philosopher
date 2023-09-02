@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 13:18:45 by kscordel          #+#    #+#             */
-/*   Updated: 2023/07/29 17:32:13 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/02 11:27:23 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_usleep(int time)
 
 	x = gettime();
 	while (gettime() - x < time)
-		usleep(50);
+		usleep(200);
 }
 
 t_philo	init(char **argv, int argc)

@@ -42,7 +42,26 @@ t_hand	creat_hand(t_philo philo)
 void	kill_all(pid_t *list_pid, int index)
 {
 	while (--index >= 0)
-		kill(SIGSTOP, list_pid[index]);
+		kill(SIGKILL, list_pid[index]);
+}
+
+int	end(t_hand hand, pid_t *list_pid, pid_t pid, t_philo philo)
+{
+	int	i;
+
+	i = 0;
+	if (pid != 0)
+	{
+		monitoring(philo, list_pid, hand);
+		i = 0;
+		while (list_pid[i])
+			waitpid(list_pid[i++], NULL, 0);
+	}
+	free(list_pid);
+	sem_destroy(hand.died);
+	sem_destroy(hand.write);
+	sem_destroy(hand.fourchettes);
+	return (0);
 }
 
 int	launch(t_philo philo, pid_t *list_pid)
@@ -59,7 +78,7 @@ int	launch(t_philo philo, pid_t *list_pid)
 		if (pid != 0)
 		{
 			pid = fork();
-			printf("j ai fork %d\n", i);
+			usleep(50);
 		}
 		if (pid == -1)
 			return (kill_all(list_pid, i - 1), 1);
@@ -68,27 +87,10 @@ int	launch(t_philo philo, pid_t *list_pid)
 			free(list_pid);
 			routine(hand, i);
 		}
-		printf(" i = %d\n", i);
 		if (pid != 0)
 			list_pid[i - 1] = pid;
 	}
-	if (pid != 0)
-		monitoring(philo, list_pid, hand);
-	if (pid != 0)
-	{
-		printf("salut \n");
-		i = 0;
-		while (list_pid[i])
-		{
-			waitpid(list_pid[i++], NULL, 0);
-			printf("waitpid %d\n", list_pid[i - 1]);
-		}
-	}
-	sem_destroy(hand.died);
-	sem_destroy(hand.write);
-	sem_destroy(hand.fourchettes);
-	printf("j ai wait \n");
-	return (0);
+	return (end(hand, list_pid, pid, philo));
 }
 
 int	main(int argc, char *argv[])
@@ -103,6 +105,5 @@ int	main(int argc, char *argv[])
 	if (!list_pid)
 		return (1);
 	list_pid = memset(list_pid, 0, sizeof(pid_t) * (philo.num_of_philos + 1));
-	printf("list_pid pointeur = %p\n", list_pid);
 	return  (launch(philo, list_pid));
 }

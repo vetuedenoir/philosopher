@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:32:59 by kscordel          #+#    #+#             */
-/*   Updated: 2023/07/29 20:10:12 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/02 12:37:45 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void	set_all(t_hand *hand, t_philo data, pthread_mutex_t *fourchettes, int i)
 		else
 			hand->sync = 1000;
 	}
-	else if (data.number_of_philosophers % 2 != 0)
+	else if (data.number_of_philosophers % 2 != 0 && i % 2 != 0)
+			hand->sync = 1000;
+	else if (data.number_of_philosophers % 2 == 0)
 	{
 		if (i % 2 == 0)
 			hand->sync = 0;
 		else
-			hand->sync = 500;
+			hand->sync = data.number_of_philosophers * 10 + 400;
 	}
-	else
-		hand->sync = 0;
 }
 
 t_hand	*create_hand(t_philo data, pthread_mutex_t *fourchettes, char *dead)
@@ -81,7 +81,7 @@ int	launch(pthread_t *philosophers, t_hand *hands, t_philo data)
 		i += 2;
 	}
 	i = 1;
-	usleep(data.time_to_eat - 200);
+	usleep(data.time_to_eat / 4);
 	while (i < data.number_of_philosophers)
 	{
 		if (pthread_create(&philosophers[i], NULL, &routine, &hands[i]) != 0)
