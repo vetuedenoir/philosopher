@@ -6,12 +6,12 @@
 #    By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/23 16:47:12 by kscordel          #+#    #+#              #
-#    Updated: 2023/06/24 15:51:09 by kscordel         ###   ########.fr        #
+#    Updated: 2023/09/04 17:59:54 by kscordel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 
 # sources

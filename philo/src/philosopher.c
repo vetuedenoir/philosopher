@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:32:59 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/02 12:37:45 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:58:04 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,22 @@
 
 void	set_all(t_hand *hand, t_philo data, pthread_mutex_t *fourchettes, int i)
 {
-	hand->fourchette_D = &fourchettes[i];
+	hand->fourchette_d = &fourchettes[i];
 	hand->info = data;
 	hand->num_philo = i + 1;
-	hand->is_dead = &fourchettes[data.number_of_philosophers];
-	hand->ecrire = &fourchettes[data.number_of_philosophers + 1];
-	if (data.number_of_philosophers == 3)
+	hand->is_dead = &fourchettes[data.num_of_philos];
+	hand->ecrire = &fourchettes[data.num_of_philos + 1];
+	if (data.num_of_philos == 3)
 	{
 		if (i % 2 == 0)
 			hand->sync = 500;
 		else
 			hand->sync = 1000;
 	}
-	else if (data.number_of_philosophers % 2 != 0 && i % 2 != 0)
+	else if (data.num_of_philos % 2 != 0 && i % 2 != 0)
 			hand->sync = 1000;
-	else if (data.number_of_philosophers % 2 == 0)
-	{
-		if (i % 2 == 0)
-			hand->sync = 0;
-		else
-			hand->sync = data.number_of_philosophers * 10 + 400;
-	}
+	else if (data.num_of_philos % 2 == 0)
+		hand->sync = 0;
 }
 
 t_hand	*create_hand(t_philo data, pthread_mutex_t *fourchettes, char *dead)
@@ -44,20 +39,20 @@ t_hand	*create_hand(t_philo data, pthread_mutex_t *fourchettes, char *dead)
 	long	time;
 
 	time = gettime();
-	hands = malloc(sizeof(t_hand) * data.number_of_philosophers);
+	hands = malloc(sizeof(t_hand) * data.num_of_philos);
 	if (!hands)
 		return (NULL);
 	i = -1;
-	while (++i < data.number_of_philosophers)
+	while (++i < data.num_of_philos)
 	{
-		if (data.number_of_philosophers == 1)
-			hands[i].fourchette_G = NULL;
+		if (data.num_of_philos == 1)
+			hands[i].fourchette_g = NULL;
 		else
 		{
 			if (i > 0)
-				hands[i].fourchette_G = &fourchettes[i - 1];
+				hands[i].fourchette_g = &fourchettes[i - 1];
 			else
-				hands[i].fourchette_G = &fourchettes[data.number_of_philosophers - 1];
+				hands[i].fourchette_g = &fourchettes[data.num_of_philos - 1];
 		}
 		hands[i].dead = dead;
 		hands[i].t_debut = time;
@@ -71,7 +66,7 @@ int	launch(pthread_t *philosophers, t_hand *hands, t_philo data)
 	int	i;
 
 	i = 0;
-	while (i < data.number_of_philosophers)
+	while (i < data.num_of_philos)
 	{
 		if (pthread_create(&philosophers[i], NULL, &routine, &hands[i]) != 0)
 		{
@@ -82,7 +77,7 @@ int	launch(pthread_t *philosophers, t_hand *hands, t_philo data)
 	}
 	i = 1;
 	usleep(data.time_to_eat / 4);
-	while (i < data.number_of_philosophers)
+	while (i < data.num_of_philos)
 	{
 		if (pthread_create(&philosophers[i], NULL, &routine, &hands[i]) != 0)
 		{
@@ -94,14 +89,15 @@ int	launch(pthread_t *philosophers, t_hand *hands, t_philo data)
 	return (0);
 }
 
-int	end(pthread_t *philosophers, t_hand *hands, t_philo data, pthread_mutex_t *f)
+int	end(pthread_t *philosophers, t_hand *hands, t_philo data, \
+	pthread_mutex_t *f)
 {
 	int	i;
 	int	r;
-	
+
 	i = 0;
 	r = 0;
-	while (i < data.number_of_philosophers)
+	while (i < data.num_of_philos)
 	{
 		if (pthread_join(philosophers[i], NULL) != 0)
 		{
@@ -110,7 +106,7 @@ int	end(pthread_t *philosophers, t_hand *hands, t_philo data, pthread_mutex_t *f
 		}
 		i++;
 	}
-	clear_mutex(f, data.number_of_philosophers + 2);
+	clear_mutex(f, data.num_of_philos + 2);
 	free(philosophers);
 	free(f);
 	free(hands);
@@ -119,19 +115,20 @@ int	end(pthread_t *philosophers, t_hand *hands, t_philo data, pthread_mutex_t *f
 
 int	main(int argc, char *argv[])
 {
-	t_philo 		philo;
+	t_philo			philo;
 	pthread_t		*philosophers;
 	pthread_mutex_t	*fourchettes;
 	t_hand			*hands;
 	char			dead;
 
 	philo = init(argv, argc);
-	if (!philo.number_of_philosophers)
+	if (!philo.num_of_philos)
 		return (1);
-	philosophers = malloc(sizeof(pthread_t) * philo.number_of_philosophers);
+	philosophers = malloc(sizeof(pthread_t) * philo.num_of_philos);
 	if (!philosophers)
 		return (1);
-	fourchettes = malloc(sizeof(pthread_mutex_t) * (philo.number_of_philosophers + 2));
+	fourchettes = malloc(sizeof(pthread_mutex_t) * \
+		(philo.num_of_philos + 2));
 	if (!fourchettes)
 		return (free(philosophers), 1);
 	dead = 0;

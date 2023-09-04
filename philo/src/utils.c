@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 13:18:45 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/02 11:27:23 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/04 13:26:37 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	mutex_init(t_philo data, pthread_mutex_t *fourchettes)
 	int	i;
 
 	i = 0;
-	while (i < data.number_of_philosophers + 2)
+	while (i < data.num_of_philos + 2)
 	{
 		if (pthread_mutex_init(&fourchettes[i], NULL) == -1)
 			return (clear_mutex(fourchettes, i), 1);
@@ -75,10 +75,10 @@ void	ft_usleep(int time)
 t_philo	init(char **argv, int argc)
 {
 	t_philo	philo;
-	
+
 	if (argc < 5)
-		return (philo.number_of_philosophers = 0, philo);
-	philo.number_of_philosophers = ft_atoi(argv[1]);
+		return (philo.num_of_philos = 0, philo);
+	philo.num_of_philos = ft_atoi(argv[1]);
 	philo.time_to_die = ft_atoi(argv[2]) * 1000;
 	philo.time_to_eat = ft_atoi(argv[3]) * 1000;
 	philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
@@ -86,9 +86,9 @@ t_philo	init(char **argv, int argc)
 		philo.nb_of_eat = ft_atoi(argv[5]);
 	else
 		philo.nb_of_eat = -1;
-	if (philo.number_of_philosophers <= 0 || philo.time_to_die <= 0 || 
+	if (philo.num_of_philos <= 0 || philo.time_to_die <= 0 || \
 		philo.time_to_eat <= 0 || philo.time_to_sleep <= 0)
-		return (printf("wrong arg \n"),\
-			philo.number_of_philosophers = 0, philo);
+		return (printf("wrong arg \n"), \
+			philo.num_of_philos = 0, philo);
 	return (philo);
 }

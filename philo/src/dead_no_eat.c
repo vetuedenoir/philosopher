@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dead_no_eat.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 12:32:00 by kscordel          #+#    #+#             */
+/*   Updated: 2023/09/04 13:44:15 by kscordel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philosopher.h"
 
 int	ft_isitdead(t_hand *hand, long lastmeal)
 {
-	long t;
+	long	t;
 
 	t = gettime() - lastmeal;
 	if (t > (long)hand->info.time_to_die)
@@ -12,11 +24,11 @@ int	ft_isitdead(t_hand *hand, long lastmeal)
 		{
 			*hand->dead = 1;
 			pthread_mutex_lock(hand->ecrire);
-			printf("%ld %d %s\n", (gettime() - hand->t_debut)\
+			printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 				/ 1000, hand->num_philo, "is died");
-			pthread_mutex_unlock(hand->ecrire);
 		}
 		pthread_mutex_unlock(hand->is_dead);
+		pthread_mutex_unlock(hand->ecrire);
 		return (1);
 	}
 	return (0);
@@ -24,7 +36,7 @@ int	ft_isitdead(t_hand *hand, long lastmeal)
 
 int	timemsg(t_hand *hand, long lastmeal, char *str)
 {
-	char d;
+	char	d;
 
 	d = 0;
 	if (gettime() - lastmeal > (long)hand->info.time_to_die)
@@ -34,7 +46,7 @@ int	timemsg(t_hand *hand, long lastmeal, char *str)
 		{
 			*hand->dead = 1;
 			pthread_mutex_lock(hand->ecrire);
-			printf("%ld %d %s\n", (gettime() - hand->t_debut)\
+			printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 				/ 1000, hand->num_philo, "died");
 			pthread_mutex_unlock(hand->ecrire);
 		}
@@ -46,7 +58,7 @@ int	timemsg(t_hand *hand, long lastmeal, char *str)
 	if (d)
 		return (1);
 	pthread_mutex_lock(hand->ecrire);
-	printf("%ld %d %s\n", (gettime() - hand->t_debut)\
+	printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 		/ 1000, hand->num_philo, str);
 	return (pthread_mutex_unlock(hand->ecrire), 0);
 }
@@ -62,12 +74,10 @@ int	ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal)
 	return (0);
 }
 
-long gettime(void)
+long	gettime(void)
 {
-	struct timeval time;
-	
+	struct timeval	time;
+
 	gettimeofday(&time, NULL);
-	//printf("\n time sec = %ld et time usec = %ld\n", time.tv_sec, time.tv_usec);
 	return ((time.tv_sec * 1000000) + time.tv_usec);
 }
-
