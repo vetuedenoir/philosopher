@@ -6,11 +6,17 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:33:06 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/05 11:20:04 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:35:22 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
+
+void	kill_all(pid_t *list_pid, int index)
+{
+	while (--index >= 0)
+		kill(SIGKILL, list_pid[index]);
+}
 
 void	*monitor(void *arg)
 {

@@ -6,28 +6,11 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:32:48 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/04 19:19:42 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:36:44 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
-
-int	ft_isitdead(t_hand *hand, long lastmeal)
-{
-	long	t;
-
-	t = gettime() - lastmeal;
-	if (t > (long)hand->info.time_to_die)
-	{
-		sem_wait(hand->write);
-		printf("%ld %d %s\n", (gettime() - hand->t_debut) \
-			/ 1000, hand->num_philo, "is died");
-		sem_post(hand->died);
-		sem_post(hand->write);
-		exit(0);
-	}
-	return (0);
-}
 
 void	byby(t_hand *hand)
 {

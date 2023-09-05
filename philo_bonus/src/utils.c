@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:25:01 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/04 19:10:32 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:38:17 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,19 @@ int	timemsg(t_hand *hand, long lastmeal, char *str)
 	return (sem_post(hand->write), 0);
 }
 
+int	ft_isitdead(t_hand *hand, long lastmeal)
+{
+	long	t;
+
+	t = gettime() - lastmeal;
+	if (t > (long)hand->info.time_to_die)
+	{
+		sem_wait(hand->write);
+		printf("%ld %d %s\n", (gettime() - hand->t_debut) \
+			/ 1000, hand->num_philo, "is died");
+		sem_post(hand->died);
+		sem_post(hand->write);
+		exit(0);
+	}
+	return (0);
+}

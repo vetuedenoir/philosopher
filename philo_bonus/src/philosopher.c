@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:32:57 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/04 19:20:01 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/05 11:41:45 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ t_hand	creat_hand(t_philo philo)
 	return (hand);
 }
 
-void	kill_all(pid_t *list_pid, int index)
-{
-	while (--index >= 0)
-		kill(SIGKILL, list_pid[index]);
-}
-
 int	end(t_hand hand, pid_t *list_pid, pid_t pid, t_philo philo)
 {
 	int	i;
@@ -87,7 +81,7 @@ int	launch(t_philo philo, pid_t *list_pid)
 		if (pid != 0)
 		{
 			pid = fork();
-			//usleep(50);
+			usleep(50);
 		}
 		if (pid == -1)
 			return (kill_all(list_pid, i - 1), 1);

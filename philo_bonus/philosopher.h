@@ -5,26 +5,25 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/12 17:34:49 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/04 19:13:45 by kscordel         ###   ########.fr       */
+/*   Created: 2023/09/05 11:29:48 by kscordel          #+#    #+#             */
+/*   Updated: 2023/09/05 11:32:44 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	PHILOSOPHER_H
+#ifndef PHILOSOPHER_H
 # define PHILOSOPHER_H
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <pthread.h>
-#include <sys/time.h>
-#include <fcntl.h> 
-#include <semaphore.h>
-#include <string.h>
-#include <signal.h>
-#include <sys/types.h>
-#include <sys/wait.h>
-
+# include <stdlib.h>
+# include <stdio.h>
+# include <unistd.h>
+# include <pthread.h>
+# include <sys/time.h>
+# include <fcntl.h> 
+# include <semaphore.h>
+# include <string.h>
+# include <signal.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_philo
 {
@@ -35,7 +34,7 @@ typedef struct s_philo
 	long	nb_of_eat;	
 }		t_philo;
 
-typedef struct	s_hand
+typedef struct s_hand
 {
 	sem_t			*died;
 	sem_t			*fourchettes;
@@ -48,7 +47,7 @@ typedef struct	s_hand
 }		t_hand;
 
 // utils
-int	ft_atoi(const char *nptr);
+int		ft_atoi(const char *nptr);
 void	ft_usleep(int time);
 t_philo	init(char **argv, int argc);
 void	kill_all(pid_t *list_pid, int index);
@@ -60,9 +59,9 @@ void	routine(t_hand hand, int num);
 void	monitoring(t_philo philo, pid_t *list_pid, t_hand hand);
 
 //dead_no_eat
-int	ft_isitdead(t_hand *hand, long lastmeal);
-int	timemsg(t_hand *hand, long lastmeal, char *str);
-int	ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal);
+int		ft_isitdead(t_hand *hand, long lastmeal);
+int		timemsg(t_hand *hand, long lastmeal, char *str);
+int		ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal);
 long	gettime(void);
 
 #endif
