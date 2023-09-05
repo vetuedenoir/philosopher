@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 17:25:01 by kscordel          #+#    #+#             */
+/*   Updated: 2023/09/04 19:10:32 by kscordel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philosopher.h"
 
 int	ft_atoi(const char *nptr)
@@ -34,12 +46,11 @@ void	ft_usleep(int time)
 		usleep(100);
 }
 
-long gettime(void)
+long	gettime(void)
 {
-	struct timeval time;
-	
+	struct timeval	time;
+
 	gettimeofday(&time, NULL);
-	//printf("\n time sec = %ld et time usec = %ld\n", time.tv_sec, time.tv_usec);
 	return ((time.tv_sec * 1000000) + time.tv_usec);
 }
 
@@ -47,15 +58,16 @@ int	timemsg(t_hand *hand, long lastmeal, char *str)
 {
 	if (gettime() - lastmeal > (long)hand->info.time_to_die)
 	{
-		sem_wait(hand->write);		
-		printf("%ld %d %s\n", (gettime() - hand->t_debut)\
+		sem_wait(hand->write);
+		printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 			/ 1000, hand->num_philo, "died");
 		sem_post(hand->died);
 		sem_post(hand->write);
 		return (1);
 	}
 	sem_wait(hand->write);
-	printf("%ld %d %s\n", (gettime() - hand->t_debut)\
+	printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 		/ 1000, hand->num_philo, str);
 	return (sem_post(hand->write), 0);
 }
+

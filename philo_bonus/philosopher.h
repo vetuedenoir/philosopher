@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:34:49 by kscordel          #+#    #+#             */
-/*   Updated: 2023/07/29 17:28:32 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/04 19:13:45 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ typedef struct	s_hand
 	sem_t			*fourchettes;
 	sem_t			*write;
 	long			t_debut;
-	t_philo		info;
+	t_philo			info;
 	pid_t			*list_pid;
-	int			sync;
-	int			num_philo;
+	int				sync;
+	int				num_philo;
 }		t_hand;
 
 // utils

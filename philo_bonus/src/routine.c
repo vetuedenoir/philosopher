@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 14:32:48 by kscordel          #+#    #+#             */
+/*   Updated: 2023/09/04 19:19:42 by kscordel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philosopher.h"
 
 int	ft_isitdead(t_hand *hand, long lastmeal)
 {
-	long t;
+	long	t;
 
 	t = gettime() - lastmeal;
 	if (t > (long)hand->info.time_to_die)
 	{
 		sem_wait(hand->write);
-		printf("%ld %d %s\n", (gettime() - hand->t_debut)\
+		printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 			/ 1000, hand->num_philo, "is died");
 		sem_post(hand->died);
 		sem_post(hand->write);
@@ -25,6 +37,7 @@ void	byby(t_hand *hand)
 	ft_usleep(500000);
 	sem_post(hand->died);
 	ft_usleep(100000);
+	exit(0);
 }
 
 void	lonely(t_hand *hand, long lastmeal)
@@ -78,7 +91,7 @@ void	take_eat(t_hand *hand, long *nb_of_eat, long *lastmeal)
 void	routine(t_hand hand, int num)
 {
 	long	lastmeal;
-	
+
 	lastmeal = gettime();
 	hand.num_philo = num;
 	timemsg(&hand, lastmeal, "is thinking");
@@ -86,7 +99,7 @@ void	routine(t_hand hand, int num)
 		lonely(&hand, lastmeal);
 	if (num > hand.info.num_of_philos / 2)
 		ft_usleep(2000);
-	while(1)
+	while (1)
 	{
 		take_eat(&hand, &hand.info.nb_of_eat, &lastmeal);
 		if (hand.info.nb_of_eat == 0)
@@ -100,5 +113,4 @@ void	routine(t_hand hand, int num)
 			ft_usleep(500);
 	}
 	exit(0);
-	
 }

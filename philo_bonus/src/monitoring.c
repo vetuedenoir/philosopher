@@ -1,13 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitoring.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 14:33:06 by kscordel          #+#    #+#             */
+/*   Updated: 2023/09/05 11:20:04 by kscordel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philosopher.h"
 
 void	*monitor(void *arg)
 {
 	t_hand	*hand;
-	int	i;
-	
-	
-	
-	hand = (t_hand*)arg;
+	int		i;
+
+	hand = (t_hand *)arg;
 	i = 0;
 	sem_wait(hand->died);
 	sem_wait(hand->died);
@@ -15,42 +25,34 @@ void	*monitor(void *arg)
 	{
 		if (kill(hand->list_pid[i], SIGKILL))
 			perror("kill");
-	//	printf("i kill pid > %d\n", hand->list_pid[i]);
 		i++;
 	}
 	sem_post(hand->died);
 	sem_post(hand->died);
 	ft_usleep(10000);
-	
 	return (NULL);
 }
-
 
 void	monitoring(t_philo philo, pid_t *list_pid, t_hand hand)
 {
 	pthread_t	moniteur;
 	t_hand		*hands;
+	int			i;
 
-	int	i;
 	i = 0;
 	hands = malloc(sizeof(t_hand));
 	*hands = hand;
 	hands->list_pid = list_pid;
-	if (pthread_create(&moniteur, NULL, &monitor,\
+	if (pthread_create(&moniteur, NULL, &monitor, \
 		hands) != 0)
 	{
 		write(2, "erreur : pthread_creat\n", 23);
 		kill_all(list_pid, philo.num_of_philos);
 		return ;
 	}
-	//pthread_detach(moniteur);
 	pthread_join(moniteur, NULL);
 	sem_close(hands->died);
 	sem_close(hands->write);
 	sem_close(hands->fourchettes);
-
-	sem_destroy(hands->died);
-	sem_destroy(hands->write);
-	sem_destroy(hands->fourchettes);
 	free(hands);
 }

@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosopher.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/04 14:32:57 by kscordel          #+#    #+#             */
+/*   Updated: 2023/09/04 19:20:01 by kscordel         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philosopher.h"
 
 t_philo	init(char **argv, int argc)
 {
 	t_philo	philo;
-	
+
 	if (argc < 5)
 		return (philo.num_of_philos = 0, philo);
 	philo.num_of_philos = ft_atoi(argv[1]);
@@ -14,9 +26,9 @@ t_philo	init(char **argv, int argc)
 		philo.nb_of_eat = ft_atoi(argv[5]);
 	else
 		philo.nb_of_eat = -1;
-	if (philo.num_of_philos <= 0 || philo.time_to_die <= 0 || 
+	if (philo.num_of_philos <= 0 || philo.time_to_die <= 0 || \
 		philo.time_to_eat <= 0 || philo.time_to_sleep <= 0)
-		return (printf("wrong arg \n"),\
+		return (printf("wrong arg \n"), \
 			philo.num_of_philos = 0, philo);
 	return (philo);
 }
@@ -24,12 +36,12 @@ t_philo	init(char **argv, int argc)
 t_hand	creat_hand(t_philo philo)
 {
 	t_hand	hand;
-	
+
 	sem_unlink("died");
 	sem_unlink("fourchettes");
 	sem_unlink("write");
 	hand.died = sem_open("died", O_CREAT, 600, 1);
-	hand.fourchettes = sem_open("fourchettes", O_CREAT, 600,\
+	hand.fourchettes = sem_open("fourchettes", O_CREAT, 600, \
 		philo.num_of_philos);
 	hand.write = sem_open("write", O_CREAT, 600, 1);
 	hand.info = philo;
@@ -58,18 +70,15 @@ int	end(t_hand hand, pid_t *list_pid, pid_t pid, t_philo philo)
 			waitpid(list_pid[i++], NULL, 0);
 	}
 	free(list_pid);
-	sem_destroy(hand.died);
-	sem_destroy(hand.write);
-	sem_destroy(hand.fourchettes);
 	return (0);
 }
 
 int	launch(t_philo philo, pid_t *list_pid)
 {
-	t_hand hand;
+	t_hand	hand;
 	pid_t	pid;
-	int	i;
-	
+	int		i;
+
 	hand = creat_hand(philo);
 	pid = 1;
 	i = 0;
@@ -78,7 +87,7 @@ int	launch(t_philo philo, pid_t *list_pid)
 		if (pid != 0)
 		{
 			pid = fork();
-			usleep(50);
+			//usleep(50);
 		}
 		if (pid == -1)
 			return (kill_all(list_pid, i - 1), 1);
@@ -96,8 +105,8 @@ int	launch(t_philo philo, pid_t *list_pid)
 int	main(int argc, char *argv[])
 {
 	t_philo	philo;
-	pid_t		*list_pid;
-	
+	pid_t	*list_pid;
+
 	philo = init(argv, argc);
 	if (philo.num_of_philos == 0)
 		return (1);
@@ -105,5 +114,5 @@ int	main(int argc, char *argv[])
 	if (!list_pid)
 		return (1);
 	list_pid = memset(list_pid, 0, sizeof(pid_t) * (philo.num_of_philos + 1));
-	return  (launch(philo, list_pid));
+	return (launch(philo, list_pid));
 }
