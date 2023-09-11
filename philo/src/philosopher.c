@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/12 17:32:59 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/04 13:58:04 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:58:46 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,6 @@ t_hand	*create_hand(t_philo data, pthread_mutex_t *fourchettes, char *dead)
 	return (hands);
 }
 
-int	launch(pthread_t *philosophers, t_hand *hands, t_philo data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data.num_of_philos)
-	{
-		if (pthread_create(&philosophers[i], NULL, &routine, &hands[i]) != 0)
-		{
-			write(2, "erreur : pthread_creat\n", 23);
-			return (free(philosophers), free(hands), 1);
-		}
-		i += 2;
-	}
-	i = 1;
-	usleep(data.time_to_eat / 4);
-	while (i < data.num_of_philos)
-	{
-		if (pthread_create(&philosophers[i], NULL, &routine, &hands[i]) != 0)
-		{
-			write(2, "erreur : pthread_creat\n", 23);
-			return (free(philosophers), free(hands), 1);
-		}
-		i += 2;
-	}
-	return (0);
-}
-
 int	end(pthread_t *philosophers, t_hand *hands, t_philo data, \
 	pthread_mutex_t *f)
 {
@@ -111,6 +83,55 @@ int	end(pthread_t *philosophers, t_hand *hands, t_philo data, \
 	free(f);
 	free(hands);
 	return (r);
+}
+
+int	launch(pthread_t *philosophers, t_hand *hands, t_philo data, pthread_mutex_t *f)
+{
+	int	i;
+
+	i = 0;
+	while (i < data.num_of_philos)
+	{
+		if (pthread_create(&philosophers[i], NULL, &routine, &hands[i]) != 0)
+		{
+			//write(2, "erreur : pthread_creat\n", 23);
+			while (--i >= 0)
+			{
+				if (pthread_join(philosophers[i], NULL) != 0)
+					write(2, "erreur : pthread_join\n", 22);
+				
+			}
+			
+			//return(end(philosophers, hands, data, f));
+			return (free(philosophers), free(hands), clear_mutex(f, data.num_of_philos + 2), free(f), 1);
+		}
+		i += 1;
+	}
+	return (0);
+	
+/*
+	(void)f;
+	while (i < data.num_of_philos)
+	{
+		if (pthread_create(&philosophers[i], NULL, &routine, &hands[i]) != 0)
+		{
+			write(2, "erreur : pthread_creat\n", 23);
+			return (free(philosophers), free(hands), 1);
+		}
+		i += 2;
+	}
+	i = 1;
+	usleep(data.time_to_eat / 4);
+	while (i < data.num_of_philos)
+	{
+		if (pthread_create(&philosophers[i], NULL, &routine, &hands[i]) != 0)
+		{
+			write(2, "erreur : pthread_creat\n", 23);
+			return (free(philosophers), free(hands), 1);
+		}
+		i += 2;
+	}
+	return (0);*/
 }
 
 int	main(int argc, char *argv[])
@@ -137,7 +158,7 @@ int	main(int argc, char *argv[])
 		return (free(philosophers), free(fourchettes), 1);
 	if (mutex_init(philo, fourchettes))
 		return (free(philosophers), free(fourchettes), free(hands), 1);
-	if (launch(philosophers, hands, philo))
+	if (launch(philosophers, hands, philo, fourchettes))
 		return (1);
 	return (end(philosophers, hands, philo, fourchettes));
 }

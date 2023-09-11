@@ -6,19 +6,20 @@
 #    By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/23 16:47:12 by kscordel          #+#    #+#              #
-#    Updated: 2023/09/04 17:59:54 by kscordel         ###   ########.fr        #
+#    Updated: 2023/09/11 14:32:02 by kscordel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 
 
 # sources
 SRC_DIR = src/
 OBJ_DIR = obj/
 
-SRCS = $(SRC_DIR)philosopher.c $(SRC_DIR)routine.c $(SRC_DIR)utils.c $(SRC_DIR)dead_no_eat.c
+SRCS = $(SRC_DIR)philosopher.c $(SRC_DIR)routine.c $(SRC_DIR)utils.c $(SRC_DIR)dead_no_eat.c \
+		$(SRC_DIR)init.c $(SRC_DIR)time.c $(SRC_DIR)action.c
 
 OBJS = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRCS))
 

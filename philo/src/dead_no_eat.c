@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 12:32:00 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/04 13:44:15 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/11 18:04:36 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ int	ft_isitdead(t_hand *hand, long lastmeal)
 			pthread_mutex_lock(hand->ecrire);
 			printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 				/ 1000, hand->num_philo, "is died");
+			pthread_mutex_unlock(hand->ecrire);
+				
 		}
 		pthread_mutex_unlock(hand->is_dead);
-		pthread_mutex_unlock(hand->ecrire);
 		return (1);
 	}
 	return (0);
@@ -61,23 +62,4 @@ int	timemsg(t_hand *hand, long lastmeal, char *str)
 	printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 		/ 1000, hand->num_philo, str);
 	return (pthread_mutex_unlock(hand->ecrire), 0);
-}
-
-int	ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal)
-{
-	if (timemsg(hand, *lastmeal, "is eating"))
-		return (1);
-	*lastmeal = gettime();
-	if (*nb_of_eat > 0)
-		*nb_of_eat = *nb_of_eat - 1;
-	ft_usleep(hand->info.time_to_eat);
-	return (0);
-}
-
-long	gettime(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000000) + time.tv_usec);
 }

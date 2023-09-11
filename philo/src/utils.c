@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 13:18:45 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/04 13:26:37 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/11 17:58:10 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,34 +61,4 @@ int	mutex_init(t_philo data, pthread_mutex_t *fourchettes)
 		i++;
 	}
 	return (0);
-}
-
-void	ft_usleep(int time)
-{
-	long	x;
-
-	x = gettime();
-	while (gettime() - x < time)
-		usleep(200);
-}
-
-t_philo	init(char **argv, int argc)
-{
-	t_philo	philo;
-
-	if (argc < 5)
-		return (philo.num_of_philos = 0, philo);
-	philo.num_of_philos = ft_atoi(argv[1]);
-	philo.time_to_die = ft_atoi(argv[2]) * 1000;
-	philo.time_to_eat = ft_atoi(argv[3]) * 1000;
-	philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
-	if (argc == 6)
-		philo.nb_of_eat = ft_atoi(argv[5]);
-	else
-		philo.nb_of_eat = -1;
-	if (philo.num_of_philos <= 0 || philo.time_to_die <= 0 || \
-		philo.time_to_eat <= 0 || philo.time_to_sleep <= 0)
-		return (printf("wrong arg \n"), \
-			philo.num_of_philos = 0, philo);
-	return (philo);
 }
