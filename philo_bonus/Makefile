@@ -6,7 +6,7 @@
 #    By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/23 16:47:12 by kscordel          #+#    #+#              #
-#    Updated: 2023/06/24 15:51:09 by kscordel         ###   ########.fr        #
+#    Updated: 2023/09/12 16:53:41 by kscordel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,8 @@ CFLAGS = -Wall -Wextra -Werror -g3
 SRC_DIR = src/
 OBJ_DIR = obj/
 
-SRCS = $(SRC_DIR)philosopher.c $(SRC_DIR)routine.c $(SRC_DIR)utils.c $(SRC_DIR)monitoring.c
+SRCS = $(SRC_DIR)philosopher.c $(SRC_DIR)routine.c $(SRC_DIR)utils.c $(SRC_DIR)monitoring.c \
+		$(SRC_DIR)action.c $(SRC_DIR)time.c $(SRC_DIR)init.c
 
 OBJS = $(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SRCS))
 

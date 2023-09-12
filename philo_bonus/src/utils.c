@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:25:01 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/05 11:38:17 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:33:50 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,6 @@ int	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (nbr * signe);
-}
-
-void	ft_usleep(int time)
-{
-	long	x;
-
-	x = gettime();
-	while (gettime() - x < time)
-		usleep(100);
-}
-
-long	gettime(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000000) + time.tv_usec);
 }
 
 int	timemsg(t_hand *hand, long lastmeal, char *str)

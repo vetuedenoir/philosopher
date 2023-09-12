@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 11:29:48 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/05 11:32:44 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:03:16 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,32 @@ typedef struct s_hand
 	int				num_philo;
 }		t_hand;
 
-// utils
-int		ft_atoi(const char *nptr);
-void	ft_usleep(int time);
+//	init.c
 t_philo	init(char **argv, int argc);
-void	kill_all(pid_t *list_pid, int index);
+t_hand	creat_hand(t_philo philo);
 
-//les routines
+//	action.c
+int		ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal);
+int		ft_sleep(t_hand *hand, long lastmeal);
+void	byby(t_hand *hand);
+
+//	routine.c
 void	routine(t_hand hand, int num);
 
 //monitoring.c
 void	monitoring(t_philo philo, pid_t *list_pid, t_hand hand);
+void	kill_all(pid_t *list_pid, int index);
 
-//dead_no_eat
+//	utils.c
 int		ft_isitdead(t_hand *hand, long lastmeal);
 int		timemsg(t_hand *hand, long lastmeal, char *str);
-int		ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal);
+int		ft_atoi(const char *nptr);
+
+//	time.c
+void	ft_usleep(int time);
 long	gettime(void);
+void	usleep_precision(int time);
+long	gettime_precision(void);
+void	depart(t_hand hand);
 
 #endif

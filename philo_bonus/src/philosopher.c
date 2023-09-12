@@ -6,50 +6,11 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:32:57 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/05 11:41:45 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/12 17:07:24 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
-
-t_philo	init(char **argv, int argc)
-{
-	t_philo	philo;
-
-	if (argc < 5)
-		return (philo.num_of_philos = 0, philo);
-	philo.num_of_philos = ft_atoi(argv[1]);
-	philo.time_to_die = ft_atoi(argv[2]) * 1000;
-	philo.time_to_eat = ft_atoi(argv[3]) * 1000;
-	philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
-	if (argc == 6)
-		philo.nb_of_eat = ft_atoi(argv[5]);
-	else
-		philo.nb_of_eat = -1;
-	if (philo.num_of_philos <= 0 || philo.time_to_die <= 0 || \
-		philo.time_to_eat <= 0 || philo.time_to_sleep <= 0)
-		return (printf("wrong arg \n"), \
-			philo.num_of_philos = 0, philo);
-	return (philo);
-}
-
-t_hand	creat_hand(t_philo philo)
-{
-	t_hand	hand;
-
-	sem_unlink("died");
-	sem_unlink("fourchettes");
-	sem_unlink("write");
-	hand.died = sem_open("died", O_CREAT, 600, 1);
-	hand.fourchettes = sem_open("fourchettes", O_CREAT, 600, \
-		philo.num_of_philos);
-	hand.write = sem_open("write", O_CREAT, 600, 1);
-	hand.info = philo;
-	hand.num_philo = 0;
-	hand.t_debut = gettime();
-	hand.sync = 500;
-	return (hand);
-}
 
 int	end(t_hand hand, pid_t *list_pid, pid_t pid, t_philo philo)
 {
