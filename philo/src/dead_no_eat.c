@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 12:32:00 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/11 18:04:36 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/12 12:49:23 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_isitdead(t_hand *hand, long lastmeal)
 			printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 				/ 1000, hand->num_philo, "is died");
 			pthread_mutex_unlock(hand->ecrire);
-				
 		}
 		pthread_mutex_unlock(hand->is_dead);
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 14:21:07 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/11 17:35:50 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:15:13 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,23 @@ int	ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal)
 int	ft_sleep(t_hand *hand, long lastmeal)
 {
 	long	x;
-	char	i;
+	long	d;
+	long	t;
 
-	i = 0;
-	x = gettime();
-	(void) lastmeal;
-	while (gettime() - x < hand->info.time_to_sleep)
+	t = gettime();
+	d = lastmeal + hand->info.time_to_die;
+	if (timemsg(hand, lastmeal, "is sleeping"))
+		return (1);
+	x = gettime() + hand->info.time_to_sleep;
+	while (t < x)
 	{
-		usleep(200);
-		if (i == 10)
+		usleep(332);
+		t = gettime();
+		if (t > d)
 		{
 			if (ft_isitdead(hand, lastmeal))
-			return (1);
-			i = 0;
+				return (1);
 		}
-		i++;
 	}
 	return (0);
 }

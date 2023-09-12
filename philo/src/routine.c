@@ -6,11 +6,22 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 15:49:30 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/11 18:19:43 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/12 16:11:32 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
+
+void	*lonely(t_hand *hand, long lastmeal)
+{
+	pthread_mutex_lock(hand->fourchette_d);
+	if (timemsg(hand, lastmeal, "has taken a fork"))
+		return (pthread_mutex_unlock(hand->fourchette_d), NULL);
+	usleep(hand->info.time_to_die + 500);
+	ft_isitdead(hand, lastmeal);
+	pthread_mutex_unlock(hand->fourchette_d);
+	return (NULL);
+}
 
 int	paire(t_hand *hand, long *nb_of_eat, long *lastmeal)
 {
@@ -46,27 +57,12 @@ int	for_all(t_hand *hand, long lastmeal)
 {
 	if (!hand->info.nb_of_eat)
 		return (1);
-	if (timemsg(hand, lastmeal, "is sleeping"))
-		return (1);
 	if (ft_sleep(hand, lastmeal))
 		return (1);
-//	ft_usleep(hand->info.time_to_sleep);
 	if (timemsg(hand, lastmeal, "is thinking"))
 		return (1);
-	usleep_precision(hand->sync); // ligne changer
-
+	usleep_precision(hand->sync);
 	return (0);
-}
-
-void	*lonely(t_hand *hand, long lastmeal)
-{
-	pthread_mutex_lock(hand->fourchette_d);
-	if (timemsg(hand, lastmeal, "has taken a fork"))
-		return (pthread_mutex_unlock(hand->fourchette_d), NULL);
-	usleep(hand->info.time_to_die + 1000);
-	ft_isitdead(hand, lastmeal);
-	pthread_mutex_unlock(hand->fourchette_d);
-	return (NULL);
 }
 
 void	*routine(void *arg)
@@ -87,7 +83,7 @@ void	*routine(void *arg)
 			if (paire(hand, &hand->info.nb_of_eat, &lastmeal))
 				break ;
 		}
-		else
+		else if (hand->info.num_of_philos % 2 == 0)
 		{
 			if (impaire(hand, &hand->info.nb_of_eat, &lastmeal))
 				break ;
