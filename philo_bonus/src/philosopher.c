@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:32:57 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 17:07:24 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:55:37 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	launch(t_philo philo, pid_t *list_pid)
 		if (pid != 0)
 		{
 			pid = fork();
-			usleep(50);
 		}
 		if (pid == -1)
 			return (kill_all(list_pid, i - 1), 1);

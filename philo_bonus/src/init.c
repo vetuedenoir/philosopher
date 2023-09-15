@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:43:25 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 16:55:32 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:43:28 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,12 @@ t_hand	creat_hand(t_philo philo)
 	sem_unlink("died");
 	sem_unlink("fourchettes");
 	sem_unlink("write");
-	hand.died = sem_open("died", O_CREAT, 600, 1);
-	hand.fourchettes = sem_open("fourchettes", O_CREAT, 600, \
+	sem_unlink("alive");
+	hand.alive = sem_open("alive", O_CREAT, 610, 1);
+	hand.died = sem_open("died", O_CREAT, 610, 0);
+	hand.fourchettes = sem_open("fourchettes", O_CREAT, 610, \
 		philo.num_of_philos);
-	hand.write = sem_open("write", O_CREAT, 600, 1);
+	hand.write = sem_open("write", O_CREAT, 610, 1);
 	hand.info = philo;
 	hand.num_philo = 0;
 	hand.t_debut = gettime();

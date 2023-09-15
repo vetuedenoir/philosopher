@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 13:51:46 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/11 16:05:01 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:39:33 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,33 @@ typedef struct s_hand
 	int				num_philo;
 }		t_hand;
 
-// utils
+//	init.c
+t_philo	init(char **argv, int argc);
+void	set_all(t_hand *hand, t_philo data, pthread_mutex_t *fourchettes, \
+	int i);
+t_hand	*create_hand(t_philo data, pthread_mutex_t *fourchettes, char *dead);
+
+//	routine.c
+void	*routine(void *arg);
+
+//	dead_no_eat.c
+int		ft_isitdead(t_hand *hand, long lastmeal);
+int		timemsg(t_hand *hand, long lastmeal, char *str);
+
+//	action.c
+int		ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal);
+int		ft_sleep(t_hand *hand, long lastmeal);
+
+//	time.c
+long	gettime_precision(void);
+void	usleep_precision(int time);
+long	gettime(void);
+int		ft_usleep(t_hand *hand, long lastmeal, int time);
+void	depart(t_hand hand, long lastmeal);
+
+//	utils.c
 int		ft_atoi(const char *nptr);
 void	clear_mutex(pthread_mutex_t *fourchettes, int indice);
 int		mutex_init(t_philo data, pthread_mutex_t *fourchettes);
-void	ft_usleep(int time);
-t_philo	init(char **argv, int argc);
-
-//les routines
-void	*routine(void *arg);
-
-//dead_no_eat
-int		ft_isitdead(t_hand *hand, long lastmeal);
-int		timemsg(t_hand *hand, long lastmeal, char *str);
-int		ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal);
-long	gettime(void);
-
-//time
-long	gettime_precision(void);
-void	usleep_precision(int time);
-void    depart(t_hand hand);
-
-int	ft_sleep(t_hand *hand, long lastmeal);
 
 #endif

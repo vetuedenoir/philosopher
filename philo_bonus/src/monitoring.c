@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:33:06 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/05 11:35:22 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:55:09 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	*monitor(void *arg)
 	hand = (t_hand *)arg;
 	i = 0;
 	sem_wait(hand->died);
-	sem_wait(hand->died);
 	while (hand->list_pid[i])
 	{
 		if (kill(hand->list_pid[i], SIGKILL))
@@ -34,7 +33,7 @@ void	*monitor(void *arg)
 		i++;
 	}
 	sem_post(hand->died);
-	sem_post(hand->died);
+	sem_post(hand->alive);
 	ft_usleep(10000);
 	return (NULL);
 }
@@ -57,6 +56,7 @@ void	monitoring(t_philo philo, pid_t *list_pid, t_hand hand)
 		return ;
 	}
 	pthread_join(moniteur, NULL);
+	sem_close(hands->alive);
 	sem_close(hands->died);
 	sem_close(hands->write);
 	sem_close(hands->fourchettes);

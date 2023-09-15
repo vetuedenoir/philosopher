@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 17:25:01 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 16:33:50 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:53:55 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,19 +39,15 @@ int	ft_atoi(const char *nptr)
 
 int	timemsg(t_hand *hand, long lastmeal, char *str)
 {
-	if (gettime() - lastmeal > (long)hand->info.time_to_die)
-	{
-		sem_wait(hand->write);
-		printf("%ld %d %s\n", (gettime() - hand->t_debut) \
-			/ 1000, hand->num_philo, "died");
-		sem_post(hand->died);
-		sem_post(hand->write);
+	if (ft_isitdead(hand, lastmeal))
 		return (1);
-	}
+	sem_wait(hand->alive);
 	sem_wait(hand->write);
 	printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 		/ 1000, hand->num_philo, str);
-	return (sem_post(hand->write), 0);
+	sem_post(hand->write);
+	sem_post(hand->alive);
+	return (0);
 }
 
 int	ft_isitdead(t_hand *hand, long lastmeal)
@@ -61,6 +57,7 @@ int	ft_isitdead(t_hand *hand, long lastmeal)
 	t = gettime() - lastmeal;
 	if (t > (long)hand->info.time_to_die)
 	{
+		sem_wait(hand->alive);
 		sem_wait(hand->write);
 		printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 			/ 1000, hand->num_philo, "is died");

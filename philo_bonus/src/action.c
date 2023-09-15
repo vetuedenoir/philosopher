@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:31:40 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 16:35:33 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:57:33 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	ft_sleep(t_hand *hand, long lastmeal)
 
 void	byby(t_hand *hand)
 {
-	write(1, "byby\n", 5);
 	ft_usleep(hand->info.time_to_eat);
 	ft_usleep(hand->info.time_to_sleep);
 	ft_usleep(500000);

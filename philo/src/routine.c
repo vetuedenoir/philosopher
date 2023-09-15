@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 15:49:30 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 16:11:32 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:38:08 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	*routine(void *arg)
 	long	lastmeal;
 
 	hand = (t_hand *)arg;
-	depart(*hand);
 	lastmeal = gettime();
 	timemsg(hand, lastmeal, "is thinking");
+	depart(hand, lastmeal);
 	if (hand->info.num_of_philos == 1)
 		return (lonely(hand, lastmeal));
 	while (1)
@@ -83,7 +83,7 @@ void	*routine(void *arg)
 			if (paire(hand, &hand->info.nb_of_eat, &lastmeal))
 				break ;
 		}
-		else if (hand->info.num_of_philos % 2 == 0)
+		else
 		{
 			if (impaire(hand, &hand->info.nb_of_eat, &lastmeal))
 				break ;

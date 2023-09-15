@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 13:37:39 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 15:38:50 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/15 19:46:32 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	set_all(t_hand *hand, t_philo data, pthread_mutex_t *fourchettes, int i)
 		else
 			hand->sync = 1000;
 	}
-	else if (data.num_of_philos % 2 != 0 && i % 2 != 0)
+	else if (data.num_of_philos % 2 != 0 && i % 2 == 0)
 			hand->sync = 1000;
 	else if (data.num_of_philos % 2 == 0)
-		hand->sync = 0;
+		hand->sync = 500;
 	else
 		hand->sync = 0;
 }

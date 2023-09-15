@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:32:48 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 17:12:02 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/14 16:56:19 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	lonely(t_hand *hand, long lastmeal)
 		sem_post(hand->fourchettes);
 		exit(0);
 	}
-	ft_usleep(hand->info.time_to_die);
+	ft_usleep(hand->info.time_to_die + 500);
 	ft_isitdead(hand, lastmeal);
 	exit(0);
 }
@@ -53,10 +53,9 @@ void	routine(t_hand hand, int num)
 {
 	long	lastmeal;
 
-	
 	hand.num_philo = num;
-	depart(hand);
 	lastmeal = gettime();
+	depart(hand);
 	timemsg(&hand, lastmeal, "is thinking");
 	if (hand.info.num_of_philos == 1)
 		lonely(&hand, lastmeal);

@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 12:32:00 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 12:49:23 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/14 20:20:44 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_isitdead(t_hand *hand, long lastmeal)
 			*hand->dead = 1;
 			pthread_mutex_lock(hand->ecrire);
 			printf("%ld %d %s\n", (gettime() - hand->t_debut) \
-				/ 1000, hand->num_philo, "is died");
+				/ 1000, hand->num_philo, "died");
 			pthread_mutex_unlock(hand->ecrire);
 		}
 		pthread_mutex_unlock(hand->is_dead);
@@ -39,26 +39,16 @@ int	timemsg(t_hand *hand, long lastmeal, char *str)
 	char	d;
 
 	d = 0;
-	if (gettime() - lastmeal > (long)hand->info.time_to_die)
-	{
-		pthread_mutex_lock(hand->is_dead);
-		if (!(*hand->dead))
-		{
-			*hand->dead = 1;
-			pthread_mutex_lock(hand->ecrire);
-			printf("%ld %d %s\n", (gettime() - hand->t_debut) \
-				/ 1000, hand->num_philo, "died");
-			pthread_mutex_unlock(hand->ecrire);
-		}
-		return (pthread_mutex_unlock(hand->is_dead), 1);
-	}
+	if (ft_isitdead(hand, lastmeal))
+		return (1);
 	pthread_mutex_lock(hand->is_dead);
 	d = *hand->dead;
-	pthread_mutex_unlock(hand->is_dead);
 	if (d)
-		return (1);
+		return (pthread_mutex_unlock(hand->is_dead), 1);
 	pthread_mutex_lock(hand->ecrire);
 	printf("%ld %d %s\n", (gettime() - hand->t_debut) \
 		/ 1000, hand->num_philo, str);
-	return (pthread_mutex_unlock(hand->ecrire), 0);
+	pthread_mutex_unlock(hand->ecrire);
+	pthread_mutex_unlock(hand->is_dead);
+	return (0);
 }

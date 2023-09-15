@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 11:29:48 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/12 17:03:16 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/14 15:25:08 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_philo
 
 typedef struct s_hand
 {
+	sem_t			*alive;
 	sem_t			*died;
 	sem_t			*fourchettes;
 	sem_t			*write;
