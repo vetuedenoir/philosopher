@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 13:37:39 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/23 17:07:29 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 18:11:26 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,21 @@ void	special(t_hand *hand, t_philo *data)
 {
 	if (data->num_of_philos % 2 != 0)
 	{
-		if (data->time_to_eat  * 3 <= data->time_to_die && \
+		if (data->time_to_eat * 3 <= data->time_to_die && \
 			data->time_to_sleep < data->time_to_eat)
 			hand->sync += data->time_to_eat - data->time_to_sleep;
-		else if (data->time_to_eat  * 3 > data->time_to_die && \
+		else if (data->time_to_eat * 3 > data->time_to_die && \
 			(data->time_to_sleep + data->time_to_eat) < data->time_to_die)
 			hand->sync += data->time_to_die - \
 			(data->time_to_eat + data->time_to_sleep);
 	}
 	else
 	{
-		if (data->time_to_eat  * 2 > data->time_to_die && \
+		if (data->time_to_eat * 2 > data->time_to_die && \
 			(data->time_to_sleep + data->time_to_eat) < data->time_to_die)
 			hand->sync += data->time_to_die - \
 			(data->time_to_eat + data->time_to_sleep);
 	}
-	
 }
 
 int	parse(char **argv, int ac)

@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:30:15 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/23 16:13:36 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 18:08:29 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_usleep(t_hand *hand, long lastmeal, int time)
 	long	x;
 	long	d;
 	long	t;
-	
+
 	t = gettime();
 	d = lastmeal + hand->info.time_to_die;
 	x = gettime() + time;
