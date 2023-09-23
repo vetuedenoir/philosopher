@@ -1,4 +1,0 @@
-faire un moniteur pour le mandatory 
-pour checker les mort a toute instant peut etre nouvelle variable et structure et mutex
-pour le bonus modifier les fonction usleep pour cheke la mort en mangant
-et peut etre quand il think
