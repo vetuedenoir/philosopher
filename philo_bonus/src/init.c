@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:43:25 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/14 15:43:28 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 17:05:56 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ t_philo	init(char **argv, int argc)
 		return (philo.num_of_philos = 0, philo);
 	if (argv[1])
 	philo.num_of_philos = ft_atoi(argv[1]);
-	philo.time_to_die = ft_atoi(argv[2]) * 1000;
-	philo.time_to_eat = ft_atoi(argv[3]) * 1000;
-	philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
+	philo.time_to_die = (long)ft_atoi(argv[2]) * 1000;
+	philo.time_to_eat = (long)ft_atoi(argv[3]) * 1000;
+	philo.time_to_sleep = (long)ft_atoi(argv[4]) * 1000;
 	if (argc == 6)
 		philo.nb_of_eat = ft_atoi(argv[5]);
 	else
@@ -51,6 +51,24 @@ t_philo	init(char **argv, int argc)
 		return (printf("wrong arg \n"), \
 			philo.num_of_philos = 0, philo);
 	return (philo);
+}
+
+void	special(t_hand *hand, t_philo *data)
+{
+	if (data->num_of_philos % 2 != 0)
+	{
+		if (data->time_to_eat  * 3 > data->time_to_die && \
+			(data->time_to_sleep + data->time_to_eat) < data->time_to_die)
+			hand->sync += 1000 + data->time_to_die - \
+			(data->time_to_eat + data->time_to_sleep);
+	}
+	else
+	{
+		if (data->time_to_eat  * 2 > data->time_to_die && \
+			(data->time_to_sleep + data->time_to_eat) < data->time_to_die)
+			hand->sync += 1000 + data->time_to_die - \
+			(data->time_to_eat + data->time_to_sleep);
+	}
 }
 
 t_hand	creat_hand(t_philo philo)
@@ -69,6 +87,10 @@ t_hand	creat_hand(t_philo philo)
 	hand.info = philo;
 	hand.num_philo = 0;
 	hand.t_debut = gettime();
-	hand.sync = 500;
+	if (philo.num_of_philos % 2 != 0)
+		hand.sync = 500;
+	else
+		hand.sync = 0;
+	special(&hand, &philo);
 	return (hand);
 }

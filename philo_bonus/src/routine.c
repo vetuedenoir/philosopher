@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:32:48 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/14 16:56:19 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 17:18:35 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	lonely(t_hand *hand, long lastmeal)
 		sem_post(hand->fourchettes);
 		exit(0);
 	}
-	ft_usleep(hand->info.time_to_die + 500);
+	ft_usleep(hand, lastmeal, hand->info.time_to_die + 500);
 	ft_isitdead(hand, lastmeal);
 	exit(0);
 }
@@ -55,13 +55,11 @@ void	routine(t_hand hand, int num)
 
 	hand.num_philo = num;
 	lastmeal = gettime();
-	depart(hand);
 	timemsg(&hand, lastmeal, "is thinking");
+	depart(hand);
 	if (hand.info.num_of_philos == 1)
 		lonely(&hand, lastmeal);
-	if (num > hand.info.num_of_philos / 2)
-		ft_usleep(2000);
-	while (1)
+	while (!ft_isitdead(&hand, lastmeal))
 	{
 		take_eat(&hand, &hand.info.nb_of_eat, &lastmeal);
 		if (hand.info.nb_of_eat == 0)
@@ -72,8 +70,7 @@ void	routine(t_hand hand, int num)
 			exit(0);
 		if (timemsg(&hand, lastmeal, "is thinking"))
 			exit(0);
-		if (hand.info.num_of_philos % 2 != 0)
-			usleep_precision(500);
+		usleep_precision(hand.sync);
 	}
 	exit(0);
 }

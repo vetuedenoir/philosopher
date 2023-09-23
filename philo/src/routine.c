@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 15:49:30 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/15 19:38:08 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 14:24:52 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,10 @@ void	*routine(void *arg)
 	hand = (t_hand *)arg;
 	lastmeal = gettime();
 	timemsg(hand, lastmeal, "is thinking");
-	depart(hand, lastmeal);
+	depart(*hand, lastmeal);
 	if (hand->info.num_of_philos == 1)
 		return (lonely(hand, lastmeal));
-	while (1)
+	while (!ft_isitdead(hand, lastmeal))
 	{
 		if (hand->num_philo % 2 == 0)
 		{

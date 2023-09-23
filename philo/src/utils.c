@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/24 13:18:45 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/11 17:58:10 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 15:53:51 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	ft_atoi(const char *nptr)
 		nbr = nbr * 10 + (nptr[i] - 48);
 		i++;
 	}
+	if (nbr > 2147483648)
+		return (0);
 	return (nbr * signe);
 }
 

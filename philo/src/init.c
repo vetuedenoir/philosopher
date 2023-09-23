@@ -6,11 +6,33 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 13:37:39 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/15 19:46:32 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 17:07:29 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
+
+void	special(t_hand *hand, t_philo *data)
+{
+	if (data->num_of_philos % 2 != 0)
+	{
+		if (data->time_to_eat  * 3 <= data->time_to_die && \
+			data->time_to_sleep < data->time_to_eat)
+			hand->sync += data->time_to_eat - data->time_to_sleep;
+		else if (data->time_to_eat  * 3 > data->time_to_die && \
+			(data->time_to_sleep + data->time_to_eat) < data->time_to_die)
+			hand->sync += data->time_to_die - \
+			(data->time_to_eat + data->time_to_sleep);
+	}
+	else
+	{
+		if (data->time_to_eat  * 2 > data->time_to_die && \
+			(data->time_to_sleep + data->time_to_eat) < data->time_to_die)
+			hand->sync += data->time_to_die - \
+			(data->time_to_eat + data->time_to_sleep);
+	}
+	
+}
 
 int	parse(char **argv, int ac)
 {
@@ -39,9 +61,9 @@ t_philo	init(char **argv, int argc)
 		return (philo.num_of_philos = 0, philo);
 	if (argv[1])
 	philo.num_of_philos = ft_atoi(argv[1]);
-	philo.time_to_die = ft_atoi(argv[2]) * 1000;
-	philo.time_to_eat = ft_atoi(argv[3]) * 1000;
-	philo.time_to_sleep = ft_atoi(argv[4]) * 1000;
+	philo.time_to_die = (long)ft_atoi(argv[2]) * 1000;
+	philo.time_to_eat = (long)ft_atoi(argv[3]) * 1000;
+	philo.time_to_sleep = (long)ft_atoi(argv[4]) * 1000;
 	if (argc == 6)
 		philo.nb_of_eat = ft_atoi(argv[5]);
 	else
@@ -73,6 +95,7 @@ void	set_all(t_hand *hand, t_philo data, pthread_mutex_t *fourchettes, int i)
 		hand->sync = 500;
 	else
 		hand->sync = 0;
+	special(hand, &data);
 }
 
 t_hand	*create_hand(t_philo data, pthread_mutex_t *fourchettes, char *dead)

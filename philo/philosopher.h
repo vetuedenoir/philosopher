@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 13:51:46 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/15 19:39:33 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 17:07:52 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@
 typedef struct s_philo
 {
 	int		num_of_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
+	long	time_to_die;
+	long	time_to_eat;
+	long	time_to_sleep;
 	long	nb_of_eat;	
 }		t_philo;
 

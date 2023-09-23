@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 14:33:06 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/14 16:55:09 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 16:13:17 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*monitor(void *arg)
 	}
 	sem_post(hand->died);
 	sem_post(hand->alive);
-	ft_usleep(10000);
+	usleep(10000);
 	return (NULL);
 }
 

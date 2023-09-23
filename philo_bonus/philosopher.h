@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 11:29:48 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/14 15:25:08 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 16:57:30 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@
 typedef struct s_philo
 {
 	int		num_of_philos;
-	int		time_to_die;
-	int		time_to_eat;
-	int		time_to_sleep;
+	long		time_to_die;
+	long		time_to_eat;
+	long		time_to_sleep;
 	long	nb_of_eat;	
 }		t_philo;
 
@@ -69,7 +69,7 @@ int		timemsg(t_hand *hand, long lastmeal, char *str);
 int		ft_atoi(const char *nptr);
 
 //	time.c
-void	ft_usleep(int time);
+int		ft_usleep(t_hand *hand, long lastmeal, int time);
 long	gettime(void);
 void	usleep_precision(int time);
 long	gettime_precision(void);

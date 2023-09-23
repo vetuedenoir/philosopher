@@ -6,19 +6,32 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:30:15 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/14 17:00:12 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/23 16:13:36 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philosopher.h"
 
-void	ft_usleep(int time)
+int	ft_usleep(t_hand *hand, long lastmeal, int time)
 {
 	long	x;
-
-	x = gettime();
-	while (gettime() - x < time)
-		usleep(200);
+	long	d;
+	long	t;
+	
+	t = gettime();
+	d = lastmeal + hand->info.time_to_die;
+	x = gettime() + time;
+	while (t < x)
+	{
+		usleep(332);
+		t = gettime();
+		if (t > d)
+		{
+			if (ft_isitdead(hand, lastmeal))
+				return (1);
+		}
+	}
+	return (0);
 }
 
 long	gettime(void)
@@ -49,7 +62,7 @@ long	gettime_precision(void)
 void	depart(t_hand hand)
 {
 	if (hand.info.num_of_philos % 2 == 0 && hand.num_philo % 2 != 0)
-		ft_usleep(hand.info.time_to_eat / 2);
+		usleep_precision(hand.info.time_to_eat / 2);
 	else if (hand.info.num_of_philos % 2 != 0 && hand.num_philo % 2 == 0)
-		ft_usleep(hand.info.time_to_eat / 2);
+		usleep_precision(hand.info.time_to_eat / 2);
 }
