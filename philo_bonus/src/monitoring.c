@@ -42,9 +42,7 @@ void	monitoring(t_philo philo, pid_t *list_pid, t_hand hand)
 {
 	pthread_t	moniteur;
 	t_hand		*hands;
-	int			i;
 
-	i = 0;
 	hands = malloc(sizeof(t_hand));
 	*hands = hand;
 	hands->list_pid = list_pid;
