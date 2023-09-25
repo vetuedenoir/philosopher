@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:30:15 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/23 18:08:29 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:44:52 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,15 @@ long	gettime_precision(void)
 	return ((time.tv_sec * 1000000) + time.tv_usec);
 }
 
-void	depart(t_hand hand)
+void	depart(t_hand *hand, long *lastmeal)
 {
-	if (hand.info.num_of_philos % 2 == 0 && hand.num_philo % 2 != 0)
-		usleep_precision(hand.info.time_to_eat / 2);
-	else if (hand.info.num_of_philos % 2 != 0 && hand.num_philo % 2 == 0)
-		usleep_precision(hand.info.time_to_eat / 2);
+	hand->t_debut = hand->t_debut + (hand->info.num_of_philos * 1000);
+	while (gettime_precision() < hand->t_debut)
+		usleep(100);
+	*lastmeal = gettime();
+	timemsg(hand, *lastmeal, "is thinking");
+	if (hand->info.num_of_philos % 2 == 0 && hand->num_philo % 2 != 0)
+		usleep_precision(hand->info.time_to_eat / 2);
+	else if (hand->info.num_of_philos % 2 != 0 && hand->num_philo % 2 == 0)
+		usleep_precision(hand->info.time_to_eat / 2);
 }

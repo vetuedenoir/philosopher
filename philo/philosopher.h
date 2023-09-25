@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 13:51:46 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/23 17:07:52 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:48:24 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ long	gettime_precision(void);
 void	usleep_precision(int time);
 long	gettime(void);
 int		ft_usleep(t_hand *hand, long lastmeal, int time);
-void	depart(t_hand hand, long lastmeal);
+void	depart(t_hand *hand, long *lastmeal);
 
 //	utils.c
 int		ft_atoi(const char *nptr);

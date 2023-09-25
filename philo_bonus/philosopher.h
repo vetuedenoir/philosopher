@@ -6,7 +6,7 @@
 /*   By: kscordel <kscordel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 11:29:48 by kscordel          #+#    #+#             */
-/*   Updated: 2023/09/23 18:07:31 by kscordel         ###   ########.fr       */
+/*   Updated: 2023/09/25 13:33:28 by kscordel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,6 @@ int		ft_usleep(t_hand *hand, long lastmeal, int time);
 long	gettime(void);
 void	usleep_precision(int time);
 long	gettime_precision(void);
-void	depart(t_hand hand);
+void	depart(t_hand *hand, long *lastmeal);
 
 #endif
