@@ -23,7 +23,7 @@ int	ft_usleep(t_hand *hand, long lastmeal, int time)
 	x = gettime() + time;
 	while (t < x)
 	{
-		usleep(330);
+		usleep(500);
 		t = gettime();
 		if (t > d)
 		{
