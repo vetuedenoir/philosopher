@@ -19,7 +19,7 @@ int	ft_eat(t_hand *hand, long *nb_of_eat, long *lastmeal)
 	*lastmeal = gettime();
 	if (*nb_of_eat > 0)
 		*nb_of_eat = *nb_of_eat - 1;
-	ft_usleep(hand, *lastmeal, hand->info.time_to_eat);
+	usleep_precision(hand->info.time_to_eat);
 	return (0);
 }
 

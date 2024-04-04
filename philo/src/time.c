@@ -47,7 +47,7 @@ void	usleep_precision(int time)
 	long	x;
 
 	x = gettime();
-	while (gettime() - x < time)
+	while (gettime_precision() - x < time)
 		usleep(200);
 }
 
@@ -56,7 +56,7 @@ long	gettime_precision(void)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000000) + time.tv_usec);
+	return ((long) time.tv_sec * 1000000) + time.tv_usec;
 }
 
 void	depart(t_hand *hand, long *lastmeal)
